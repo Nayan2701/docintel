@@ -33,3 +33,6 @@ lancedb/
 
 # OS / editor
 .DS_Store
+
+# Terraform variable files hold personal values; commit only *.example
+**/terraform.tfvars
