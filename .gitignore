@@ -1,0 +1,35 @@
+
+# ---- docintel additions ----
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl.bak
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
+
+# Data: documents never live in the repo
+data/
+*.pdf
+*.htm
+*.html
+!docs/**/*.html
+*.parquet
+*.lance/
+lancedb/
+
+# OS / editor
+.DS_Store
