@@ -93,21 +93,3 @@ jobs:
 
       - name: terraform apply
         run: terraform apply -no-color tfplan
-
-  oidc-debug:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print OIDC token claims (temporary; token itself is not printed)
-        working-directory: .
-        run: |
-          python3 - <<'PY'
-          import base64, json, os, urllib.request
-          url = os.environ["ACTIONS_ID_TOKEN_REQUEST_URL"] + "&audience=sts.amazonaws.com"
-          req = urllib.request.Request(url, headers={"Authorization": "bearer " + os.environ["ACTIONS_ID_TOKEN_REQUEST_TOKEN"]})
-          token = json.load(urllib.request.urlopen(req))["value"]
-          payload = token.split(".")[1]
-          payload += "=" * (-len(payload) % 4)
-          claims = json.loads(base64.urlsafe_b64decode(payload))
-          keys = ["sub", "aud", "iss", "repository", "repository_owner", "ref", "event_name"]
-          print(json.dumps({k: claims.get(k) for k in keys}, indent=2))
-          PY

@@ -1,5 +1,7 @@
 locals {
   github_repo = "Nayan2701/docintel"
+  # GitHub immutable subject format: owner@owner_id/repo@repo_id
+  github_sub_prefix = "repo:Nayan2701@90122933/docintel@1409089181"
 }
 
 resource "aws_iam_openid_connect_provider" "github" {
@@ -28,8 +30,8 @@ data "aws_iam_policy_document" "gha_plan_trust" {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:${local.github_repo}:pull_request",
-        "repo:${local.github_repo}:ref:refs/heads/main",
+        "${local.github_sub_prefix}:pull_request",
+        "${local.github_sub_prefix}:ref:refs/heads/main",
       ]
     }
   }
@@ -82,7 +84,7 @@ data "aws_iam_policy_document" "gha_apply_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${local.github_repo}:environment:dev"]
+      values   = ["${local.github_sub_prefix}:environment:dev"]
     }
   }
 }
